@@ -1,0 +1,26 @@
+name: Save Status JSON
+
+on:
+  workflow_dispatch: # Triggered manually or from the client-side app
+
+jobs:
+  save_status:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up GitHub token for authentication
+      uses: actions/setup-dotenv@v1
+      with:
+        env-file: .env
+
+    - name: Save status.json
+      run: |
+        echo "Saving the status JSON..."
+        curl -X PUT \
+          -H "Authorization: token ${{ secrets.GH_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -d "$(cat status.json)" \
+          "https://api.github.com/repos/dmerry0222/KioskJSONMemory/contents/status.json"
