@@ -1,0 +1,17 @@
+name: Update Status File
+on:
+  workflow_dispatch:  # Allow manual trigger
+jobs:
+  update_status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Update status file
+        run: |
+          echo 'Updated status' >> status.json
+          git config --global user.name "Your Name"
+          git config --global user.email "your-email@example.com"
+          git add status.json
+          git commit -m "Update status"
+          git push
